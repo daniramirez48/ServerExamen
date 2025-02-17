@@ -1,11 +1,11 @@
-// Función para sanitizar los datos del formulario
+//daniel ramirez
 function sanitizeInput(input) {
     const element = document.createElement('div');
     element.innerText = input;
     return element.innerHTML.trim();
 }
 
-// Función para validar los datos del formulario
+
 function validateForm(data) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const errors = [];
@@ -26,27 +26,26 @@ function validateForm(data) {
     return errors;
 }
 
-// Manejar el registro
 document.getElementById('registration-form')?.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
-    // Sanitizar los datos del formulario
+
     for (let key in data) {
         if (data.hasOwnProperty(key)) {
             data[key] = sanitizeInput(data[key]);
         }
     }
 
-    // Validar los datos del formulario
+
     const errors = validateForm(data);
     if (errors.length > 0) {
         alert(errors.join('\n'));
         return;
     }
 
-    console.log(data); // Para ver qué datos se envían
+    console.log(data); // Para verificar los datos que se enviarán
 
     try {
         const response = await fetch('/userExamen', {
@@ -59,6 +58,13 @@ document.getElementById('registration-form')?.addEventListener('submit', async (
 
         if (response.ok) {
             alert(result.message || 'Registro exitoso!');
+            const modal = document.getElementById("myModal");
+            modal.style.display = "none";
+
+            const containerSubs = document.querySelector('.container-subs');
+            if (containerSubs) {
+                containerSubs.innerHTML = "<h4>Examen de dani</h4>";
+            }
         } else {
             alert(result.error || 'Error en el registro');
         }

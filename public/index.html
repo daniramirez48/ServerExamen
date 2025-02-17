@@ -159,7 +159,7 @@ body {
     top: -5px;
 }
 
-/* responsive */
+
 @media (max-width: 1080px) {
     .container {
         height: auto;
@@ -199,7 +199,6 @@ body {
     border-radius: 10px;
    
 }
-/* ==================== Modal ==================== */
 .modal {
         display: none;
         position: fixed;
@@ -315,11 +314,8 @@ body {
             <button type="button" id="subscribeBtn">¡Suscríbete!</button>
         </div>  
     </div>
-
-        <!-- Modal que contiene el formulario de registro -->
     <div id="myModal" class="modal">
         <div class="modal-content">
-        <!-- Botón para cerrar el modal -->
         <span class="close">&times;</span>
         <h2>Registro</h2>
         <!-- Formulario de registro -->
@@ -341,7 +337,7 @@ body {
         </div>
     </div>
     <script>
-        // Change The Picture and Associated Element Color when Color Options Are Clicked.
+       
         $(".product-colors span").click(function() {
             $(".product-colors span").removeClass("active");
             $(this).addClass("active");
@@ -353,7 +349,7 @@ body {
             $(".container .details button").css("background", $(this).attr("data-color-sec"));
             $(".imgBx img").attr('src', $(this).attr("data-pic"));
         });
-    //mi codigo para el modal    
+    
     var modal = document.getElementById("myModal");
     var subscribeBtn = document.getElementById("subscribeBtn");
     var closeBtn = document.getElementsByClassName("close")[0];
