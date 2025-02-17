@@ -1,17 +1,14 @@
-// database.js
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('database.db');
+const Database = require('better-sqlite3');
+const db = new Database('database.db', { verbose: console.log }); // Puedes agregar la opción 'verbose' para ver los logs
 
-db.serialize(() => {
-    db.run(`
-        CREATE TABLE IF NOT EXISTS userExamen (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            email TEXT,
-            username TEXT UNIQUE,
-            password TEXT
-        )
-    `);
-});
+db.prepare(`
+    CREATE TABLE IF NOT EXISTS userExamen (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        email TEXT,
+        username TEXT UNIQUE,
+        password TEXT
+    )
+`).run();
 
-module.exports = db; // Exportación esencial
+module.exports = db;
