@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs'); // Cambiar bcrypt por bcryptjs
 const db = require('./database'); // Asegúrate de que la ruta sea correcta
 const app = express();
 const saltRounds = 10; // Para bcrypt
@@ -58,7 +58,7 @@ app.post('/userExamen', async (req, res) => {
   }
 });
 // Iniciar servidor
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
