@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Examen</title>
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,800&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: #000;
+}
+
+.container {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 959px;
+    height: 600px;
+    background: #fff;
+    margin: 20px;
+    border-radius: 10px;
+    margin-bottom: 1em;
+}
+
+.container .imgBx {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    background: #212121;
+    transition: .3s linear;
+}
+
+.container .imgBx:before {
+    content: 'Nike';
+    position: absolute;
+    top: 0px;
+    left: 24px;
+    color: #000;
+    opacity: 0.2;
+    font-size: 8em;
+    font-weight: 800;
+}
+
+.container .imgBx img {
+    position: relative;
+    width: 700px;
+    transform: rotate(-30deg);
+    left: -50px;
+    transition: .9s linear;
+}
+
+.container .details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 40px;
+}
+
+.container .details h2{
+    margin: 0;
+    padding: 0;
+    font-size: 2.4em;
+    line-height: 1em;
+    color: #444;
+}
+
+.container .details h2 span {
+    font-size: 0.4em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #999;
+}
+
+.container .details p {
+    max-width: 85%;
+    margin-left: 15%;
+    color: #333;
+    font-size: 15px;
+    margin-bottom: 36px;
+}
+
+.container .details h3 {
+    margin: 0;
+    padding: 0;
+    font-size: 2.5em;
+    color: #a2a2a2;
+    float: left;
+}
+.container .details button {
+    background: #000;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 15px 20px;
+    margin-top: 5px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 40px;
+    float: right;
+}
+
+.product-colors span {
+    width: 26px;
+    height: 26px;
+    top: 7px;
+    margin-right: 12px;
+    left: 10px;
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.black {
+    background: #000;
+}
+
+.red {
+    background: #D5212E;
+}
+
+.orange {
+    background: #F18557;
+}
+
+.product-colors .active:after{
+    content: "";
+    width: 36px;
+    height: 36px;
+    border: 2px solid #000;
+    position: absolute;
+    border-radius: 50%;
+    box-sizing: border-box;
+    left: -5px;
+    top: -5px;
+}
+
+/* responsive */
+@media (max-width: 1080px) {
+    .container {
+        height: auto;
+    }
+    .container .imgBx {
+        padding: 40px;
+        box-sizing: border-box;
+        width: 100% !important;
+        height: auto;
+        text-align: center;
+        overflow: hidden;
+    }
+    .container .imgBx img {
+        left: initial;
+        max-width: 100%;
+        transform: rotate(0deg);
+    }
+    .details {
+        width: 100% !important;
+        height: auto;
+        padding: 20px;
+    }
+    .container .details p {
+        margin-left: 0;
+        max-width: 100%;
+    }
+}
+
+.container-subs {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 6px;
+    background-color: white;
+    padding: 1px 287px;
+    border-radius: 10px;
+   
+}
+/* ==================== Modal ==================== */
+.modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.15);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        width: 90%;
+        max-width: 400px;
+        position: relative;
+        left: 35%;
+    }
+
+    .close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+        color: var(--secondary-color);
+    }
+
+    /* ==================== Formulario ==================== */
+    .registration-form input {
+        width: 100%;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border: 1px solid #eee;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .registration-form button {
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .wrapper {
+            margin: 1rem;
+            flex-direction: column;
+        }
+        
+        .product-img,
+        .product-info {
+            width: 100%;
+            float: none;
+        }
+    }
+
+    
+    button {
+        background: black;
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+    }
+
+    button:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+  </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="imgBx">
+            <img src="https://github.com/anuzbvbmaniac/Responsive-Product-Card---CSS-ONLY/blob/master/assets/img/jordan_proto.png?raw=true" alt="Nike Jordan Proto-Lyte Image">
+        </div>
+        <div class="details">
+            <div class="content">
+                <h2>Jordan Proto-Lyte <br>
+                    <span>Para los mejores corredores</span>
+                </h2>
+                <p>
+                    Con una amortiguación de espuma suave y un tejido ligero en la parte superior, las Jordan Proto-Lyte son
+                    Hecho para la comodidad de todo el día.
+                    Transpirabilidad ligera: la tela tejida liviana con cuero real o sintético proporciona
+                    Soporte transpirable.
+                    Comodidad acolchada: una entresuela de espuma completa brinda una amortiguación liviana y afelpada.
+                    Tracción segura: la suela exterior con patrón de espiga exagerado ofrece tracción en una variedad de superficies.
+                </p>
+                <p class="product-colors">Colores disponibles:
+                    <span class="black active" data-color-primary="#000" data-color-sec="#212121" data-pic="https://github.com/anuzbvbmaniac/Responsive-Product-Card---CSS-ONLY/blob/master/assets/img/jordan_proto.png?raw=true"></span>
+                    <span class="red" data-color-primary="#7E021C" data-color-sec="#bd072d" data-pic="https://github.com/anuzbvbmaniac/Responsive-Product-Card---CSS-ONLY/blob/master/assets/img/jordan_proto_red_black.png?raw=true"></span>
+                    <span class="orange" data-color-primary="#CE5B39" data-color-sec="#F18557" data-pic="https://github.com/anuzbvbmaniac/Responsive-Product-Card---CSS-ONLY/blob/master/assets/img/jordan_proto_orange_black.png?raw=true"></span>
+                </p>
+                <h3>78$</h3>
+                 
+                    <button>comprar ahora</button>
+            </div>
+        </div>
+
+        <div class="container-subs">
+            <h4>Obten 50% de descuento en tu primer registro.</h4>
+            <button type="button" id="subscribeBtn">¡Suscríbete!</button>
+        </div>  
+    </div>
+
+        <!-- Modal que contiene el formulario de registro -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+        <!-- Botón para cerrar el modal -->
+        <span class="close">&times;</span>
+        <h2>Registro</h2>
+        <!-- Formulario de registro -->
+        <form class="registration-form" id="registration-form">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="username">Nombre de usuario:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Registrarme</button>
+        </form>
+        </div>
+    </div>
+    <script>
+        // Change The Picture and Associated Element Color when Color Options Are Clicked.
+        $(".product-colors span").click(function() {
+            $(".product-colors span").removeClass("active");
+            $(this).addClass("active");
+            $(".active").css("border-color", $(this).attr("data-color-sec"))
+            $("body").css("background", $(this).attr("data-color-primary"));
+            $(".content h2").css("color", $(this).attr("data-color-sec"));
+            $(".content h3").css("color", $(this).attr("data-color-sec"));
+            $(".container .imgBx").css("background", $(this).attr("data-color-sec"));
+            $(".container .details button").css("background", $(this).attr("data-color-sec"));
+            $(".imgBx img").attr('src', $(this).attr("data-pic"));
+        });
+    //mi codigo para el modal    
+    var modal = document.getElementById("myModal");
+    var subscribeBtn = document.getElementById("subscribeBtn");
+    var closeBtn = document.getElementsByClassName("close")[0];
+
+   
+    subscribeBtn.onclick = function() {
+      modal.style.display = "block";
+    }
+
+    
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+    }
+
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+
+
+    </script>
+<script src="daniel.app.js"></script>
+</body>
+
+</html>

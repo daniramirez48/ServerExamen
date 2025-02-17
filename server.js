@@ -1,55 +1,62 @@
 const express = require('express');
-const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const sqlite3 = require('sqlite3').verbose();
+const db = require('./database'); // Asegúrate de que la ruta sea correcta
 const app = express();
-
-// // Configuración de la base de datos SQLite
-// const db = new sqlite3.Database('./database.db', err => {
-//     if (err) {
-//         console.error('Error al conectar a SQLite:', err);
-//     } else {
-//         console.log('Conectado a SQLite');
-//         // Crear tabla de usuarios si no existe
-//         db.run(`
-//             CREATE TABLE IF NOT EXISTS users (
-//                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-//                 username TEXT UNIQUE,
-//                 password TEXT
-//             )
-//         `);
-//     }
-// });
-
+const saltRounds = 10; // Para bcrypt
 // Middlewares
-app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-// Ruta de registro
-app.post('/registro', async (req, res) => {
-    try {
-        const {name, username, password } = req.body;
-        const hashedPassword = await bcrypt.hash(password, 10);
+app.post('/userExamen', async (req, res) => {
+  try {
+    const { name, username, email, password } = req.body;
 
-        db.run(
-            'INSERT INTO userUrko (username, password) VALUES (?, ?)',
-            [username, hashedPassword],
-            function(err) {
-                if (err) {
-                    return res.status(400).send('Usuario ya existe');
-                }
-                res.status(201).send('Usuario registrado');
-            }
-        );
-        
-    } catch (error) {
-        res.status(500).send('Error en el registro');
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
-});
+    
+    // Verificar si el usuario ya existe
+    db.get('SELECT * FROM userExamen WHERE username = ? OR email = ?', [username, email], async (err, row) => {
+      if (err) {
+        console.log('Datos recibidos:', { name, username, email, password });
+        console.error('Error al buscar el usuario:', err);
+        return res.status(500).json({ error: 'Error al buscar el usuario' });
+      }
 
+      if (row) {
+        return res.status(400).json({ error: 'El usuario ya está registrado' });
+      }
+
+      try {
+        // Hash de la contraseña
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Insertar nuevo usuario
+        db.run(
+          'INSERT INTO userExamen (name, username, email, password) VALUES (?, ?, ?, ?)',
+          [name, username, email, hashedPassword],
+          (err) => {
+            if (err) {
+              console.error('Error al crear el usuario:', err);
+              return res.status(500).json({ error: 'Error al crear el usuario' });
+            }
+            console.log('Usuario creado:', username);
+            res.status(201).json({ success: true, message: 'Usuario registrado exitosamente' });
+          }
+        );
+      } catch (hashError) {
+        console.error('Error al encriptar la contraseña:', hashError);
+        return res.status(500).json({ error: 'Error al encriptar la contraseña' });
+      }
+    });
+
+  } catch (error) {
+    console.error('Error inesperado en el servidor:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
 // Iniciar servidor
 const PORT = 3000;
 app.listen(PORT, () => {
