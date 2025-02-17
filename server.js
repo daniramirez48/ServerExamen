@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const bcrypt = require('bcryptjs'); // Cambiar bcrypt por bcryptjs
-const db = require('./database'); // Asegúrate de que la ruta sea correcta
+const bcrypt = require('bcryptjs');
+const db = require('./database'); 
 const app = express();
-const saltRounds = 10; // Para bcrypt
+const saltRounds = 10; 
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -16,8 +16,6 @@ app.post('/userExamen', async (req, res) => {
     if (!username || !email || !password) {
       return res.status(400).json({ error: 'Todos los campos son obligatorios' });
     }
-    
-    // Verificar si el usuario ya existe
     db.get('SELECT * FROM userExamen WHERE username = ? OR email = ?', [username, email], async (err, row) => {
       if (err) {
         console.log('Datos recibidos:', { name, username, email, password });
@@ -32,8 +30,6 @@ app.post('/userExamen', async (req, res) => {
       try {
         // Hash de la contraseña
         const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-        // Insertar nuevo usuario
         db.run(
           'INSERT INTO userExamen (name, username, email, password) VALUES (?, ?, ?, ?)',
           [name, username, email, hashedPassword],
